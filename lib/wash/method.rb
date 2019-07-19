@@ -27,12 +27,12 @@ module Wash
     end
     private_class_method :method
 
-    method("list")
-    method("read")
-    method("metadata")
-    method("schema")
+    method(:list)
+    method(:read)
+    method(:metadata)
+    method(:schema)
 
-    method("exec") do |entry, *args|
+    method(:exec) do |entry, *args|
       opts, cmd, args = Wash.send(:parse_json, args[0]), args[1], args[2..-1]
       unless STDIN.eof?
         opts[:stdin] = STDIN
@@ -41,7 +41,7 @@ module Wash
       exit ec
     end
 
-    method("stream") do |entry, _|
+    method(:stream) do |entry, _|
       entry.stream
       raise "stream should never return"
     end
