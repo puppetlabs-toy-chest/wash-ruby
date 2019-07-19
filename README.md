@@ -23,7 +23,7 @@ Wash.run(<root_klass>, ARGV)
 
 ```
 class MyPluginRoot < Wash::Entry
-  def init
+  def init(config)
     // ...
   end
   
@@ -52,6 +52,8 @@ end
 ```
 
 implements `stream` and `exec`. The calling conventions and return parameters for each method is described below:
+
+* `init(config)` should not return a value. `config` is a hash containing the plugin config.
 
 * `list` should return an array of `Wash::Entry` objects.
 

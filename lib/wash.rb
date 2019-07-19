@@ -58,7 +58,8 @@ module Wash
       unless root.respond_to?(:init)
         raise "Plugin root #{root.type_id} does not implement init."
       end
-      root.init
+      config = JSON.parse(config)
+      root.init(config)
       if @prefetch_entry_schemas
         root.prefetch :schema
       end
