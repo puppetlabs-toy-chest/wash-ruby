@@ -22,7 +22,7 @@ Wash.run(<root_klass>, ARGV)
 `<root_klass>` should the plugin root's class object. For example, if the plugin root is something like
 
 ```
-class MyPluginRoot
+class MyPluginRoot < Wash::Entry
   def init
     // ...
   end
@@ -40,7 +40,7 @@ All entries should have their own Ruby class corresponding to a specific kind of
 The entry's supported Wash methods corresponds to instance methods on the entry's class. For example, something like
 
 ```
-class VirtualMachine
+class VirtualMachine < Wash::Entry
   def exec(cmd, args, opts)
     # ...
   end
@@ -70,7 +70,7 @@ implements `stream` and `exec`. The calling conventions and return parameters fo
 The `wash` gem provides convenient helpers for specifying Entry schemas. Below is an example showcasing some of the helpers
 
 ```
-class Parent
+class Parent < Wash::Entry
   label 'parent'
   is_singleton
   parent_of 'ChildOne', 'ChildTwo'
@@ -80,11 +80,11 @@ class Parent
   end
 end
 
-class ChildOne
+class ChildOne < Wash::Entry
   label 'child_one'
 end
 
-class ChildTwo
+class ChildTwo < Wash::Entry
   label 'child_two'
 end
 ```
