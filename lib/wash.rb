@@ -58,7 +58,7 @@ module Wash
       unless root.respond_to?(:init)
         raise "Plugin root #{root.type_id} does not implement init."
       end
-      config = JSON.parse(config)
+      config = parse_json(config)
       root.init(config)
       if @prefetch_entry_schemas
         root.prefetch :schema
@@ -70,8 +70,8 @@ module Wash
     _, argv = next_arg(argv)
 
     state, argv = next_arg(argv)
-    state = JSON.parse(state)
-    klass = const_get(state.delete("klass"))
+    state = parse_json(state)
+    klass = const_get(state.delete(:klass))
     # Use klass#allocate instead of klass#new to give plugin authors
     # more freedom in how they decide to setup their constructors
     entry = klass.allocate
@@ -114,6 +114,11 @@ module Wash
     puts(result_json)
   end
   private_class_method :print_json
+
+  def self.parse_json(json)
+    JSON.parse(json,:symbolize_names => true)
+  end
+  private_class_method :parse_json
 
   require 'wash/entry'
   require 'wash/exec_output_streamer'

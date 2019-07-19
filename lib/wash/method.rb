@@ -33,7 +33,7 @@ module Wash
     method("schema")
 
     method("exec") do |entry, *args|
-      opts, cmd, args = JSON.parse(args[0]), args[1], args[2..-1]
+      opts, cmd, args = Wash.send(:parse_json, args[0]), args[1], args[2..-1]
       unless STDIN.eof?
         opts[:stdin] = STDIN
       end
