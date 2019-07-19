@@ -43,11 +43,11 @@ module Wash
   def self.run(root_klass, argv)
     Signal.trap('INT') do
       handle_sigterm
-      exit 0
+      exit 130
     end
     Signal.trap('TERM') do
       handle_sigterm
-      exit 0
+      exit 143
     end
 
     method, argv = next_arg(argv)
