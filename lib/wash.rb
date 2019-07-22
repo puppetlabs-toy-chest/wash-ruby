@@ -28,8 +28,7 @@ module Wash
   # receives a SIGTERM/SIGINT signal. It is useful for handling
   # plugin-specific cleanup like dangling processes, files, etc.
   def self.on_sigterm(&block)
-    @sigterm_handlers ||= []
-    @sigterm_handlers << block
+    sigterm_handlers << block
   end
 
   # run is the plugin script's run function. All plugin scripts using
@@ -89,7 +88,7 @@ module Wash
   private_class_method :next_arg
 
   def self.handle_sigterm
-    @sigterm_handlers.each do |handler|
+    sigterm_handlers.each do |handler|
       handler.call
     end
   end
@@ -119,6 +118,11 @@ module Wash
     JSON.parse(json,:symbolize_names => true)
   end
   private_class_method :parse_json
+
+  def self.sigterm_handlers
+    @sigterm_handlers ||= []
+  end
+  private_class_method :sigterm_handlers
 
   require 'wash/entry'
   require 'wash/method'
