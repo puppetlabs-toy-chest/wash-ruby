@@ -105,11 +105,10 @@ class Container < Wash::Entry
   end
 
   def exec(cmd, args, opts)
-    streamer = Wash::ExecOutputStreamer.new
-    streamer.write_stdout("CMD = #{cmd}\n")
-    streamer.write_stdout("ARGS = #{args}\n")
-    streamer.write_stdout("OPTS = #{opts}\n")
-    streamer.write_stderr("ERROR = none\n")
+    STDOUT.print("CMD = #{cmd}\n")
+    STDOUT.print("ARGS = #{args}\n")
+    STDOUT.print("OPTS = #{opts}\n")
+    STDERR.print("ERROR = none\n")
     # Notice that exec returns the command's exit code.
     # In this case, the "command execution" was successful.
     0

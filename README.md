@@ -63,7 +63,7 @@ implements `stream` and `exec`. The calling conventions and return parameters fo
 
 * `stream` should never return during normal operation. `stream` implementations should use the `Wash::Streamer` class when writing their chunks
 
-* `exec(cmd, args, opts)` should return `cmd`'s exit code. `exec` implementations should take advantage of the `Wash::ExecOutputStreamer` class when writing their stdout/stderr chunks. Note that `STDIN`, if provided, can be accessed via the `opts[:stdin]` key.
+* `exec(cmd, args, opts)` should return `cmd`'s exit code. `exec` implementations should write their stdout/stderr chunks to stdout/stderr. Note that `STDIN`, if provided, can be accessed via the `opts[:stdin]` key.
 
 
 ## Entry Schemas

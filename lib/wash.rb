@@ -121,7 +121,6 @@ module Wash
   private_class_method :parse_json
 
   require 'wash/entry'
-  require 'wash/exec_output_streamer'
   require 'wash/method'
   require 'wash/streamer'
 end
