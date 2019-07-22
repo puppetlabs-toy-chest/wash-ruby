@@ -77,6 +77,21 @@ module Wash
 
       # is_singleton is a class-level tag indicating that the given Entry's a singleton.
       # It is a helper for Entry schemas.
+      #
+      # Note that if an Entry has the is_singleton tag and its name is not filled-in
+      # when that Entry is listed, then the Entry's name will be set to the specified
+      # label. This means that plugin authors do not have to set singleton entries'
+      # names, and it also enforces the convention that singleton entries' labels should
+      # match their names.
+      #
+      # @example
+      #   class Foo
+      #     label 'foo'
+      #     is_singleton
+      #   end
+      #
+      # In the above example, if the singleton instance of Foo does not set its name
+      # via the @name field, then the gem will set its name to 'foo'.
       def is_singleton
         @singleton = true
       end
@@ -111,6 +126,22 @@ module Wash
       def parent_of(child_klass, *child_klasses)
         @child_klasses ||= []
         @child_klasses += [child_klass] + child_klasses
+      end
+
+      # children returns this Entry's child classes. It is a helper for Entry schemas, and
+      # is useful for DRY'ing up schema code when one kind of Entry's children matches another
+      # kind of Entry's children.
+      #
+      # @example
+      #   class VolumeDir
+      #     parent_of 'VolumeDir', 'VolumeFile'
+      #   end
+      #
+      #   class Volume
+      #     parent_of *VolumeDir.children
+      #   end
+      def children
+        @child_klasses
       end
 
       private
@@ -167,12 +198,16 @@ module Wash
       end
     end
 
-    # All entries have a name
+    # All entries have a name. Note that the name is always
+    # included in the entry's state hash.
     attr_accessor :name
 
     def to_json(*)
-      unless @name &&  @name.size > 0
-        raise "A nameless entry is being serialized. The entry is an instance of #{type_id}"
+      unless @name && @name.size > 0
+        unless singleton
+          raise "A nameless entry is being serialized. The entry is an instance of #{type_id}"
+        end
+        @name = label
       end
 
       hash = {
@@ -275,6 +310,14 @@ module Wash
 
     def state
       self.class.instance_variable_get(:@state) || {}
+    end
+
+    def label
+      self.class.instance_variable_get(:@label)
+    end
+
+    def singleton
+      self.class.instance_variable_get(:@singleton)
     end
 
     def prefetched_methods
