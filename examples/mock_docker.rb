@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
+require 'shellwords'
 require 'wash'
 
 # This example mocks the Docker core-plugin in Wash. It does not perform
@@ -105,13 +106,9 @@ class Container < Wash::Entry
   end
 
   def exec(cmd, args, opts)
-    STDOUT.print("CMD = #{cmd}\n")
-    STDOUT.print("ARGS = #{args}\n")
-    STDOUT.print("OPTS = #{opts}\n")
-    STDERR.print("ERROR = none\n")
+    system(Shellwords.join([cmd] + args))
     # Notice that exec returns the command's exit code.
-    # In this case, the "command execution" was successful.
-    0
+    $?.exitstatus
   end
 end
 
