@@ -34,8 +34,10 @@ module Wash
 
     method(:exec) do |entry, *args|
       opts, cmd, args = Wash.send(:parse_json, args[0]), args[1], args[2..-1]
-      unless STDIN.eof?
+      if opts[:stdin]
         opts[:stdin] = STDIN
+      else
+        opts[:stdin] = nil
       end
       ec = entry.exec(cmd, args, opts)
       exit ec
