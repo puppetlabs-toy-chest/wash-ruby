@@ -1,13 +1,11 @@
 # frozen_string_literal: true
 
-# TODO: Double-check the .gemspec once the basic project's been setup
-
 lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name          = "wash"
-  spec.version       = "0.0.0"
+  spec.version       = "0.1.0"
   spec.authors       = ["Puppet"]
   spec.email         = ["puppet@puppet.com"]
 
