@@ -12,10 +12,9 @@ module Wash
       #
       # @example
       #   class Foo
+      #     # Instances of Foo will be able to set the @mtime and @meta fields
       #     attributes :mtime, :meta
       #   end
-      #
-      # indicates that instances of Foo will set the mtime and meta attributes.
       #
       # @param [Symbol] attr An attribute that will be set
       # @param [Symbol] attrs More attributes that will be set
@@ -31,14 +30,12 @@ module Wash
       #
       # @example
       #   class Foo
+      #     # Tell Wash to replace all "/"es with ":" in the given Foo instance's
+      #     # name
       #     slash_replacer ":"
       #   end
       #
-      # tells Wash to replace all "/"es in a given Foo instance's name with the
-      # ":" character.
-      #
       # @param [String] char The slash replacer
-      #
       def slash_replacer(char)
         @slash_replacer = char
       end
@@ -46,21 +43,21 @@ module Wash
       # state is a class-level tag that specifies the minimum state required
       # to reconstruct all instances of this specific kind of entry. Each specified
       # state field will be passed along to attr_accessor so that instances can
-      # get/set their values. For example, something like
+      # get/set their values.
       #
       # @example
       #   class Foo
+      #     # Indicates that api_key is the minimum state required to reconstruct
+      #     # instances of Foo. The gem will serialize the api_key as part of each
+      #     # instance's state key when passing them along to Wash. If Wash invokes
+      #     # a method on a specific instance, then Wash.run will restore the api_key
+      #     # prior to invoking the method (so all methods are free to directly reference
+      #     # the @api_key field). Thus, plugin authors do not have to manage their entries'
+      #     # states; the gem will do it for them via the state tag.
       #     state :api_key
       #   end
       #
-      # indicates that api_key is the minimum state required to reconstruct instances
-      # of Foo. The gem will serialize the api_key as part of each instance's state
-      # key when passing them along to Wash. If Wash invokes a method on a specific
-      # instance, then Wash.run will restore the api_key prior to invoking the method.
-      # Thus, plugin authors do not have to manage their entries' states; the gem will
-      # do it for them via the state tag.
-      #
-      # Note that Wash.run uses Class::allocate when it reconstructs the entries, so
+      # Note that Wash.run uses {Class#allocate} when it reconstructs the entries, so
       # it does not call the initialize method.
       def state(field, *fields)
         @state ||= []
@@ -70,9 +67,9 @@ module Wash
       # label is a class-level tag specifying the entry's label. It is a helper for
       # Entry schemas.
       #
-      # @param l The label.
-      def label(l)
-        @label = l
+      # @param lbl The label.
+      def label(lbl)
+        @label = lbl
       end
 
       # is_singleton is a class-level tag indicating that the given Entry's a singleton.
@@ -87,11 +84,9 @@ module Wash
       # @example
       #   class Foo
       #     label 'foo'
+      #     # If Foo's instance does not set @name, then the gem will set @name to 'foo'
       #     is_singleton
       #   end
-      #
-      # In the above example, if the singleton instance of Foo does not set its name
-      # via the @name field, then the gem will set its name to 'foo'.
       def is_singleton
         @singleton = true
       end
@@ -112,14 +107,16 @@ module Wash
       end
 
       # parent_of indicates that this kind of Entry is the parent of the given child classes
-      # (i.e. child entries). It is a helper for Entry schemas. For example, something like
+      # (i.e. child entries). It is a helper for Entry schemas.
       #
       # @example
       #   class Foo
-      #     parent_of 'Bar', 'Baz'
+      #     # This indicates that Foo#list will return instances of Bar and Baz. Note
+      #     # that both direct class constants (Bar) and strings ('Baz') are valid
+      #     # input. The latter's useful when the child class is loaded after the
+      #     # parent.
+      #     parent_of Bar, 'Baz'
       #   end
-      #
-      # indicates that Foo#list will return instances of Bar and Baz entries.
       #
       # @param [Wash::Entry] child_klass A child class object.
       # @param [Wash::Entry] child_klasses More child class objects.
@@ -259,13 +256,12 @@ module Wash
     #   class Foo
     #     def initialize(content_size)
     #       if content_size < 10
+    #         # content_size < 10, so tell the gem to invoke Foo#list and Foo#read
+    #         # on this Foo instance during its serialization
     #         prefetch :list, :read
     #       end
     #     end
     #   end
-    #
-    # In the above example, if content_size < 10, then the gem will invoke Foo#list and
-    # Foo#read on the given Foo instance during its serialization.
     #
     # @param [Symbol] method A method that should be prefetched.
     # @param [Symbol] methods More methods that should be prefetched.
@@ -279,13 +275,14 @@ module Wash
     #   class Foo
     #     def initialize(content_size)
     #       if content_size > 10000
+    #         # content_size > 10000 so tell Wash to cache its read result for
+    #         # 100 seconds
     #         cache_ttls read: 100 
     #       end
     #     end
     #   end
     #
-    # In the above example, if content_size > 10000, then the gem tells Wash to cache
-    # that instance's read result for 100 seconds.
+    # @param [Hash] ttls A hash of <method_name> => <method_ttl>
     def cache_ttls(ttls = {})
       @cache_ttls ||= {}
       @cache_ttls = @cache_ttls.merge(ttls)
