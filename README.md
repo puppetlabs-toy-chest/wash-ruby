@@ -1,5 +1,7 @@
 # wash
 
+[![Yard Docs](http://img.shields.io/badge/yard-docs-blue.svg)](https://rubydoc.info/github/puppetlabs/wash-ruby)
+
 ## Overview
 `wash` is a Ruby gem that's meant to facilitate external plugin development for the [Wash project](https://puppetlabs.github.io/wash/). It does not have any external dependencies.
 
