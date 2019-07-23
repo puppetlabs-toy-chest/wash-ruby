@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Wash
+  # @api private
   module Method
     def self.invoke(method, entry, *args)
       method = method.to_sym

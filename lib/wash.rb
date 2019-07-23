@@ -10,7 +10,7 @@ module Wash
   end
 
   # enable_entry_schemas enables {Entry schema}[https://puppetlabs.github.io/wash/docs/#entry-schemas]
-  # support. See Wash::Entry's documentation for more details on
+  # support. See {Wash::Entry}'s documentation for more details on
   # the available Entry schema helpers.
   def self.enable_entry_schemas
     @entry_schemas_enabled = true
@@ -27,6 +27,18 @@ module Wash
   # on_sigterm will execute the provided block when the plugin script
   # receives a SIGTERM/SIGINT signal. It is useful for handling
   # plugin-specific cleanup like dangling processes, files, etc.
+  #
+  # @example
+  #   class Foo
+  #     # ...
+  #     def stream
+  #       # ...
+  #       Wash.on_sigterm do
+  #         # Kill any orphaned processes/files
+  #       end
+  #       # ...
+  #     end
+  #   end
   def self.on_sigterm(&block)
     sigterm_handlers << block
   end
@@ -37,8 +49,7 @@ module Wash
   #
   # @param [Wash::Entry] root_klass The plugin root's class object
   #
-  # @param [Array<String>] argv The plugin script's arguments. This
-  # should almost always be the ARGV global variable.
+  # @param [Array<String>] argv The plugin script's arguments (usually ARGV). 
   def self.run(root_klass, argv)
     Signal.trap('INT') do
       handle_sigterm
