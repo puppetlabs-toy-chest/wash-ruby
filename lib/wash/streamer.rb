@@ -17,7 +17,7 @@ module Wash
           puts("200")
           @first_chunk = false
         end
-        print(chunk)
+        STDOUT.print(chunk)
         STDOUT.flush
     end
   end

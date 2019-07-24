@@ -139,8 +139,7 @@ class Volume < Wash::Entry
   # Note that you are not required to define a constructor for
   # every entry class; this example only does so out of the
   # author's personal preference. To emphasize this point, notice
-  # how the VolumeDir/VolumeFile classes do not have an initialize
-  # method.
+  # how the VolumeDir class does not have an initialize method.
   def initialize(name)
     @name = name
   end
@@ -149,8 +148,7 @@ class Volume < Wash::Entry
     dir = VolumeDir.new
     dir.name = "dir"
 
-    file = VolumeFile.new
-    file.name = "file"
+    file = VolumeFile.new("file")
 
     [dir, file]
   end
@@ -161,17 +159,24 @@ class VolumeDir < Wash::Entry
   parent_of 'VolumeDir', 'VolumeFile'
 
   def list
-    file = VolumeFile.new
-    file.name = "file_in_dir"
+    file = VolumeFile.new("file_in_dir")
     [file]
   end
 end
 
 class VolumeFile < Wash::Entry
   label 'mock_volume_file'
+  attributes :size
+  state :content
+
+  def initialize(name)
+    @name = name
+    @content = "Reading #{@name}'s content"
+    @size = @content.size
+  end
 
   def read
-    "Reading #{@name}'s content"
+    @content
   end
 end
 

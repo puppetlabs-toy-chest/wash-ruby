@@ -29,9 +29,12 @@ module Wash
     private_class_method :method
 
     method(:list)
-    method(:read)
     method(:metadata)
     method(:schema)
+
+    method(:read) do |entry, _|
+      STDOUT.print(entry.read)
+    end
 
     method(:exec) do |entry, *args|
       opts, cmd, args = Wash.send(:parse_json, args[0]), args[1], args[2..-1]
