@@ -16,7 +16,7 @@ require 'wash'
 # before the subsequent Wash.run call
 #Wash.pretty_print
 #Wash.enable_entry_schemas
-#Wash.enable_schema_prefetching
+#Wash.prefetch_entry_schemas
 
 Wash.run(<root_klass>, ARGV)
 
