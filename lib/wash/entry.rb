@@ -14,6 +14,11 @@ module Wash
       #   class Foo
       #     # Instances of Foo will be able to set the @mtime and @meta fields
       #     attributes :mtime, :meta
+      #
+      #     def initialize(mtime, meta)
+      #       @mtime = mtime
+      #       @meta = meta
+      #     end
       #   end
       #
       # @param [Symbol] attr An attribute that will be set
@@ -55,6 +60,10 @@ module Wash
       #     # the @api_key field). Thus, plugin authors do not have to manage their entries'
       #     # states; the gem will do it for them via the state tag.
       #     state :api_key
+      #
+      #     def initialize(api_key)
+      #       @api_key = api_key
+      #     end
       #   end
       #
       # Note that Wash.run uses {Class#allocate} when it reconstructs the entries, so
