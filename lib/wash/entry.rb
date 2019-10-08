@@ -100,6 +100,14 @@ module Wash
         @singleton = true
       end
 
+      # description is a class-level tag specifying the entry's description. It is a helper
+      # for Entry schemas.
+      #
+      # @param description The description.
+      def description(description)
+        @description = description
+      end
+
       # meta_attribute_schema sets the meta attribute's schema to schema. It is a helper
       # for Entry schemas.
       #
@@ -157,6 +165,7 @@ module Wash
           label: @label,
           methods: methods,
           singleton: @singleton,
+          description: @description,
           meta_attribute_schema: @meta_attribute_schema,
           metadata_schema: @metadata_schema,
         }
