@@ -20,7 +20,9 @@ module Wash
       unless block
         block = lambda do |entry, *args|
           result = entry.send(name, *args)
-          Wash.send(:print_json, result)
+          unless result == nil
+            Wash.send(:print_json, result)
+          end
         end
       end
       @methods ||= {}
@@ -31,6 +33,8 @@ module Wash
     method(:list)
     method(:metadata)
     method(:schema)
+    method(:delete)
+    method(:signal)
 
     method(:read) do |entry, _|
       STDOUT.print(entry.read)
