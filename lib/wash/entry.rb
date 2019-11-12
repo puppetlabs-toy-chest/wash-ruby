@@ -108,26 +108,16 @@ module Wash
         @description = description
       end
 
-      # signals sets the entry's supported signals/signal-groups to signals. It is a helper for
-      # Entry schemas.
-      #
-      # @param signals An array of hashes where each hash represents a signal/signal group's schema.
-      #
-      # @example
-      #   class Foo
-      #     signals begin
-      #       [
-      #         # This is an example signal's schema
-      #         { name: "start", description: "Starts the entry" },
-      #
-      #         # This is an example signal group's schema. The 'regex' key distinguishes signal/signal group schemas. Its
-      #         # syntax is described in https://golang.org/pkg/regexp/syntax/#pkg-overview
-      #         { name: "linux", description: "Consists of all the supported Linux signals like SIGHUP, SIGKILL", regex: '\ASIG.*'
-      #       ]
-      #     end
-      #   end
-      def signals(signals)
-        @signals = signals
+      # signal adds the given signal to the entry's list of supported signals. It is a helper
+      # for Entry schemas.
+      def signal(name, description)
+        add_signal_schema(name, '', description)
+      end
+
+      # signal_group adds the given signal group to the entry's list of supported signals. It is
+      # a helper for Entry schemas.
+      def signal_group(name, regex, description)
+        add_signal_schema(name, regex, description)
       end
 
       # meta_attribute_schema sets the meta attribute's schema to schema. It is a helper
@@ -233,6 +223,17 @@ module Wash
           attr_accessor field
         end
         fields
+      end
+
+      def add_signal_schema(name, regex, description)
+        signal = {
+          name: name,
+          description: description
+        }
+        signal[:regex] = regex unless regex.empty?
+
+        @signals ||= []
+        @signals.push(signal)
       end
     end
 
