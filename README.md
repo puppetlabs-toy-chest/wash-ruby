@@ -68,6 +68,10 @@ implements `stream` and `exec`. The calling conventions and return parameters fo
 
 * `exec(cmd, args, opts)` should return `cmd`'s exit code. `exec` implementations should write their stdout/stderr chunks to stdout/stderr. Note that `STDIN`, if provided, can be accessed via the `opts[:stdin]` key.
 
+* `delete` should return `true` if the entry was deleted, `false` if the entry's deletion is in progress.
+
+* `signal(signal)` should return `nil` if the signal was successfully sent.
+
 
 ## Entry Schemas
 [Entry schemas](https://puppetlabs.github.io/wash/docs/#entry-schemas) are optional. They can be enabled via the `Wash.enable_entry_schemas` configuration option.

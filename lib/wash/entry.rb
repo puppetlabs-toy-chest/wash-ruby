@@ -108,6 +108,28 @@ module Wash
         @description = description
       end
 
+      # signals sets the entry's supported signals/signal-groups to signals. It is a helper for
+      # Entry schemas.
+      #
+      # @param signals An array of hashes where each hash represents a signal/signal group's schema.
+      #
+      # @example
+      #   class Foo
+      #     signals begin
+      #       [
+      #         # This is an example signal's schema
+      #         { name: "start", description: "Starts the entry" },
+      #
+      #         # This is an example signal group's schema. The 'regex' key distinguishes signal/signal group schemas. Its
+      #         # syntax is described in https://golang.org/pkg/regexp/syntax/#pkg-overview
+      #         { name: "linux", description: "Consists of all the supported Linux signals like SIGHUP, SIGKILL", regex: '\ASIG.*'
+      #       ]
+      #     end
+      #   end
+      def signals(signals)
+        @signals = signals
+      end
+
       # meta_attribute_schema sets the meta attribute's schema to schema. It is a helper
       # for Entry schemas.
       #
@@ -166,6 +188,7 @@ module Wash
           methods: methods,
           singleton: @singleton,
           description: @description,
+          signals: @signals,
           meta_attribute_schema: @meta_attribute_schema,
           metadata_schema: @metadata_schema,
         }
