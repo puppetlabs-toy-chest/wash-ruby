@@ -258,6 +258,13 @@ module Wash
       hash[:methods] = self.class.send(:methods).map do |method|
         if prefetched_methods.include?(method)
           [method, self.send(method)]
+        elsif method == :read
+          # Check if this entry is block-readable
+          #
+          # TODO: Generalize this to lib/wash/method.rb if Wash starts
+          # supporting more overloaded methods
+          block_readable = self.method(:read).arity > 0
+          [:read, block_readable]
         else
           method
         end

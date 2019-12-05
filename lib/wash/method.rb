@@ -36,8 +36,13 @@ module Wash
     method(:delete)
     method(:signal)
 
-    method(:read) do |entry, _|
-      STDOUT.print(entry.read)
+    method(:read) do |entry, *args|
+      if args.length > 0
+        # We're invoking read on a block-readable entry so munge
+        # the size and offset
+        args = args.map(&:to_i)
+      end
+      STDOUT.print(entry.read(*args))
     end
 
     method(:exec) do |entry, *args|
