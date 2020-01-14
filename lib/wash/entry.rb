@@ -12,12 +12,12 @@ module Wash
       #
       # @example
       #   class Foo
-      #     # Instances of Foo will be able to set the @mtime and @meta fields
-      #     attributes :mtime, :meta
+      #     # Instances of Foo will be able to set the @mtime and @size fields
+      #     attributes :mtime, :size
       #
-      #     def initialize(mtime, meta)
+      #     def initialize(mtime, size)
       #       @mtime = mtime
-      #       @meta = meta
+      #       @size = size
       #     end
       #   end
       #
@@ -120,12 +120,12 @@ module Wash
         add_signal_schema(name, regex, description)
       end
 
-      # meta_attribute_schema sets the meta attribute's schema to schema. It is a helper
+      # partial_metadata_schema sets the partial metadata's schema to schema. It is a helper
       # for Entry schemas.
       #
-      # @param schema A hash containing the meta attribute's JSON schema
-      def meta_attribute_schema(schema)
-        @meta_attribute_schema = schema
+      # @param schema A hash containing the partial metadata's JSON schema
+      def partial_metadata_schema(schema)
+        @partial_metadata_schema = schema
       end
 
       # metadata_schema sets the metadata schema to schema. It is a helper for Entry schemas.
@@ -179,7 +179,7 @@ module Wash
           singleton: @singleton,
           description: @description,
           signals: @signals,
-          meta_attribute_schema: @meta_attribute_schema,
+          partial_metadata_schema: @partial_metadata_schema,
           metadata_schema: @metadata_schema,
         }
         unless @child_klasses
@@ -241,6 +241,9 @@ module Wash
     # included in the entry's state hash.
     attr_accessor :name
 
+    # Contains the entry's partial metadata.
+    attr_accessor :partial_metadata
+
     def to_json(*)
       unless @name && @name.size > 0
         unless singleton
@@ -268,6 +271,9 @@ module Wash
       # some space.
       if attributes.size > 0 && (attributes_hash = to_hash(attributes))
         hash[:attributes] = attributes_hash
+      end
+      if @partial_metadata
+        hash[:partial_metadata] = @partial_metadata
       end
       if cache_ttls.size > 0
         hash[:cache_ttls] = cache_ttls
