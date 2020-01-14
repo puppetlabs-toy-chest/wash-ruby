@@ -60,7 +60,7 @@ implements `stream` and `exec`. The calling conventions and return parameters fo
 
 * `list` should return an array of `Wash::Entry` objects.
 
-* `read` should return a `String` containing the entry's content.
+* `read` should return a `String` containing the entry's content. For block-readable entries, `read(size, offset)` should return a `String` containing size bits of the entry's content starting at the given offset.
 
 * `metadata` should return a hash containing the entry's full metadata.
 
