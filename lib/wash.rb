@@ -92,7 +92,7 @@ module Wash
 
   def self.next_arg(argv)
     if argv.size < 1
-      raise "Invalid plugin-script invocation. See https://puppetlabs.github.io/wash/docs/external_plugins/ for details on what this should look like"
+      raise "Invalid plugin-script invocation. See https://puppetlabs.github.io/wash/docs/external-plugins for details on what this should look like"
     end
     return argv[0], argv[1..-1]
   end
