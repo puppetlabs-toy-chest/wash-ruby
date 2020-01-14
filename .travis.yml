@@ -3,7 +3,7 @@ install:
 - gem build wash.gemspec
 - gem install wash-*.gem
 before_script:
-- curl -sfL https://github.com/puppetlabs/wash/releases/download/0.6.1/wash-0.6.1-x86_64-unknown-linux.tgz | tar -xz
+- curl -sfL https://github.com/puppetlabs/wash/releases/download/0.17.0/wash-0.17.0-x86_64-unknown-linux.tgz | tar -xz
 script:
 - ./wash validate examples/mock_docker.rb
 deploy:
