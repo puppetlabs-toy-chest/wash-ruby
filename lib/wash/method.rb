@@ -45,6 +45,10 @@ module Wash
       STDOUT.print(entry.read(*args))
     end
 
+    method(:write) do |entry, _|
+      entry.write(STDIN)
+    end
+
     method(:exec) do |entry, *args|
       opts, cmd, args = Wash.send(:parse_json, args[0]), args[1], args[2..-1]
       if opts[:stdin]

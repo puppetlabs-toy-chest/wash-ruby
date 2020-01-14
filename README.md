@@ -72,6 +72,8 @@ implements `stream` and `exec`. The calling conventions and return parameters fo
 
 * `signal(signal)` should return `nil` if the signal was successfully sent.
 
+* `write(data)` should return `nil` if the data's successfully written. Note that `data == STDIN`.
+
 
 ## Entry Schemas
 [Entry schemas](https://puppetlabs.github.io/wash/docs/#entry-schemas) are optional. They can be enabled via the `Wash.enable_entry_schemas` configuration option.

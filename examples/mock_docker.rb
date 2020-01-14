@@ -66,12 +66,12 @@ end
 
 class Container < Wash::Entry
   label 'mock_container'
-  attributes :mtime, :meta
+  attributes :mtime
   state :mtime
   # The "begin", "end" block's used here so that
   # Ruby doesn't confuse "{" with the start of a
   # block.
-  meta_attribute_schema = begin
+  partial_metadata_schema begin
     {
       "type": "object",
       "properties": {
@@ -88,7 +88,7 @@ class Container < Wash::Entry
   def initialize(name, mtime)
     @name = name
     @mtime = mtime
-    @meta = {
+    @partial_metadata = {
       last_modified_time: mtime,
       owner: "puppetlabs",
     }
