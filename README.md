@@ -75,6 +75,34 @@ implements `stream` and `exec`. The calling conventions and return parameters fo
 
 `Wash::Entry` objects must set `@name` (to a `String`) when they're initialized. They may also set `@partial_metadata` (to a `Hash`) if they have metadata that's available at initialization.
 
+## Wash Features
+Wash provides two types of core features - _core entries_ and _exec implementations_ - that plugins can use.
+
+_Core entries_ can be used when listing children. See the [external plugin list docs](https://puppetlabs.github.io/wash/docs/external-plugins#list) for more on _core entries_. This gem provides helpers for using the `volume::fs` _core entry_:
+```
+class Parent < Wash::Entry
+  # When 'Wash.enable_entry_schemas' is used the VOLUMEFS entry needs to be included
+  parent_of VOLUMEFS, ...
+  def list
+    [volumefs("fs", maxdepth: 2), ...]
+  end
+end
+```
+
+_Exec implementations_ provide an implementation of the `exec` method so you don't need to define your own. For example if your entry works with SSH, then you can use Wash's SSH transport to implement its exec method. See the [external plugin exec docs](https://puppetlabs.github.io/wash/docs/external-plugins#exec) for more on _exec implementations_, including all the options available for the SSH transport. Request this transport with:
+```
+class Execable < Wash::Entry
+  def initialize(name)
+    transport :ssh, host: name, user: 'root'
+  end
+
+  # When 'Wash.enable_entry_schemas' is used the 'exec' method still needs to be defined so it appears in the schema
+  def exec
+    raise 'implemented by transport'
+  end
+end
+```
+
 ## Entry Schemas
 [Entry schemas](https://puppetlabs.github.io/wash/docs/external-plugins#entry-schemas) are optional. They can be enabled via the `Wash.enable_entry_schemas` configuration option.
 
