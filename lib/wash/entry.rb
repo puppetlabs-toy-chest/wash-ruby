@@ -244,7 +244,7 @@ module Wash
     # Contains the entry's partial metadata.
     attr_accessor :partial_metadata
 
-    def to_json(*)
+    def to_json(jstate)
       unless @name && @name.size > 0
         unless singleton
           raise "A nameless entry is being serialized. The entry is an instance of #{type_id}"
@@ -290,9 +290,9 @@ module Wash
       end
       hash[:state] = to_hash(state).merge(klass: type_id, name: @name).to_json
       if Wash.send(:pretty_print?)
-        JSON.pretty_generate(hash)
+        JSON.pretty_generate(hash, jstate)
       else
-        JSON.generate(hash)
+        JSON.generate(hash, jstate)
       end
     end
 
