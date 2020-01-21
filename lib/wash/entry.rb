@@ -66,7 +66,7 @@ module Wash
       #     end
       #   end
       #
-      # Note that Wash.run uses {Class#allocate} when it reconstructs the entries, so
+      # Note that Wash.run uses Class#allocate when it reconstructs the entries, so
       # it does not call the initialize method.
       def state(field, *fields)
         @state ||= []
