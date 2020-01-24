@@ -42,17 +42,17 @@ module Wash
         # the size and offset
         args = args.map(&:to_i)
       end
-      STDOUT.print(entry.read(*args))
+      $stdout.print(entry.read(*args))
     end
 
     method(:write) do |entry, _|
-      entry.write(STDIN)
+      entry.write($stdin)
     end
 
     method(:exec) do |entry, *args|
       opts, cmd, args = Wash.send(:parse_json, args[0]), args[1], args[2..-1]
       if opts[:stdin]
-        opts[:stdin] = STDIN
+        opts[:stdin] = $stdin
       else
         opts[:stdin] = nil
       end

@@ -126,7 +126,7 @@ module Wash
   private_class_method :print_json
 
   def self.parse_json(json)
-    JSON.parse(json,:symbolize_names => true)
+    JSON.parse(json, symbolize_names: true)
   end
   private_class_method :parse_json
 

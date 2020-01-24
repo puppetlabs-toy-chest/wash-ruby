@@ -17,8 +17,8 @@ module Wash
           puts("200")
           @first_chunk = false
         end
-        STDOUT.print(chunk)
-        STDOUT.flush
+        $stdout.print(chunk)
+        $stdout.flush
     end
   end
 end
