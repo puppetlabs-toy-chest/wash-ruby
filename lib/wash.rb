@@ -9,7 +9,7 @@ module Wash
     @pretty_print = true
   end
 
-  # enable_entry_schemas enables {Entry schema}[https://puppetlabs.github.io/wash/docs/#entry-schemas]
+  # enable_entry_schemas enables {Entry schema}[https://puppetlabs.github.io/wash/docs/external-plugins#entry-schemas]
   # support. See {Wash::Entry}'s documentation for more details on
   # the available Entry schema helpers.
   def self.enable_entry_schemas
