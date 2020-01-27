@@ -187,6 +187,11 @@ module Wash
         end
         visited[type_id][:children] = @child_klasses
         @child_klasses.each do |child_klass|
+          if child_klass == VOLUMEFS
+            visited[child_klass] = {}
+            next
+          end
+
           child_klass = const_get(child_klass)
           if visited[child_klass.send(:type_id)]
             next
@@ -237,6 +242,10 @@ module Wash
       end
     end
 
+    # Name of the volume filesystem type in Wash. Use with `parent_of` when
+    # returning `volumefs` in your `list` method.
+    VOLUMEFS = '__volume::fs__'
+
     # All entries have a name. Note that the name is always
     # included in the entry's state hash.
     attr_accessor :name
@@ -244,7 +253,7 @@ module Wash
     # Contains the entry's partial metadata.
     attr_accessor :partial_metadata
 
-    def to_json(jstate)
+    def to_json(jstate = {})
       unless @name && @name.size > 0
         unless singleton
           raise "A nameless entry is being serialized. The entry is an instance of #{type_id}"
@@ -268,6 +277,8 @@ module Wash
           # supporting more overloaded methods
           block_readable = self.method(:read).arity > 0
           [:read, block_readable]
+        elsif method == :exec && @transport
+          [:exec, { transport: @transport[0], options: @transport[1] }]
         else
           method
         end
@@ -341,6 +352,49 @@ module Wash
     def cache_ttls(ttls = {})
       @cache_ttls ||= {}
       @cache_ttls = @cache_ttls.merge(ttls)
+    end
+
+    # volumefs creates the `volume::fs` entry as specified in Wash's external plugin docs.
+    #
+    # @example
+    #   class Foo
+    #     parent_of VOLUMEFS
+    #     def list
+    #       [volumefs('fs', maxdepth: 5), Bar.new]
+    #     end
+    #   end
+    #
+    # @param [String] name The name to use for the child representing the remote filesystem.
+    # @param [Hash] options Options to configure the filesystem.
+    #     - maxdepth: How deep to walk the remote filesystem when needed. This is a trade-off
+    #       between speed of the transport and filesystem complexity. For fast transports it
+    #       should be low (1-3), for slower transports higher (3-6).
+    def volumefs(name, options = {})
+      { type_id: VOLUMEFS, name: name, state: options.to_json }
+    end
+
+    # transport requests that Wash use a built-in transport with the supplied
+    # transport options to implement Exec. When using this feature, you must
+    # also declare the 'exec' method so it's included in the schema. You may
+    # use this to implement a fallback implementation for entries where the
+    # transport feature is not used.
+    #
+    # @example
+    #   class Foo
+    #     def initialize(name)
+    #       transport :ssh, host: name, user: 'root'
+    #     end
+    #
+    #     def exec
+    #       raise 'implemented by transport'
+    #     end
+    #   end
+    #
+    # @param [Symbol] klass The transport to use. Only `:ssh` is supported
+    # @param [Hash] options For SSH: :host (required), :user, :password,
+    #     :fallbackuser, :identityfile, :knownhosts, :hostkeyalias, :retries
+    def transport(klass, options = {})
+      @transport = [klass, options]
     end
 
     # schema returns the entry's schema. It should not be overridden.

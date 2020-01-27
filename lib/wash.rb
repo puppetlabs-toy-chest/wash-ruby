@@ -9,7 +9,7 @@ module Wash
     @pretty_print = true
   end
 
-  # enable_entry_schemas enables {Entry schema}[https://puppetlabs.github.io/wash/docs/#entry-schemas]
+  # enable_entry_schemas enables {Entry schema}[https://puppetlabs.github.io/wash/docs/external-plugins#entry-schemas]
   # support. See {Wash::Entry}'s documentation for more details on
   # the available Entry schema helpers.
   def self.enable_entry_schemas
@@ -126,7 +126,7 @@ module Wash
   private_class_method :print_json
 
   def self.parse_json(json)
-    JSON.parse(json,:symbolize_names => true)
+    JSON.parse(json, symbolize_names: true)
   end
   private_class_method :parse_json
 
