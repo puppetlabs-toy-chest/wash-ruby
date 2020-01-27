@@ -391,8 +391,8 @@ module Wash
     #   end
     #
     # @param [Symbol] klass The transport to use. Only `:ssh` is supported
-    # @param [Hash] options For SSH: :host (required), :user, :password,
-    #     :fallbackuser, :identityfile, :knownhosts, :hostkeyalias, :retries
+    # @param [Hash] options For SSH: :host (required), :user, :fallback_user,
+    #     :password, :identity_file, :known_hosts, :host_key_alias, :retries, :port
     def transport(klass, options = {})
       @transport = [klass, options]
     end
