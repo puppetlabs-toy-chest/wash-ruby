@@ -2,13 +2,13 @@ language: ruby
 jobs:
   include:
   - stage: test
-    name: "Unit tests"
+    name: Unit tests
     install:
     - gem install rspec
     script:
     - echo "Running tests against $(ruby -v)..."
     - rspec spec
-  - name: "Integration tests"
+  - name: Integration tests
     install:
     - gem build wash.gemspec
     - gem install wash-*.gem
@@ -17,12 +17,12 @@ jobs:
     script:
     - ./wash validate examples/mock_docker.rb
   - stage: gem release
-    name: "Deploy to RubyGems"
+    name: Deploy to RubyGems
     script: echo "Deploying to rubygems.org..."
     deploy:
       provider: rubygems
       api_key:
-        secure: MAkog8JPxT/qKuxKPGpWVtgsBdThIobKDLvAOMuMk73s2cykZSMilOav+jynJ3e8ELzDFBegaFgpcSzuPOsFOHzVAoRd0FSnin36kdNZsRZaDEwhr9Zn0bCOGf/EiZt48htrGF4dXz8gZkLR3Aur0shdhSk5kH3akfxWV4HiBf5V7ahFEuhpDeU4zYmaON6IQ0SBAu7c+s08XydXsOkHy3mqMGwXQVAwqyA4mCYp2xlllGRaNHxhDQUHLBPmJEHWpxrgACfRFev+4T/Un24ws3B1khxBILeW+gwjRzpW2cDReamiD0HfEPdNPbf2cXxqiJbXKmuMoL1NEjkH9YoLNokpK5ArE4m05uJw5++SLbNKAH6jV19Zjd7KBkR6z4z2wwvLWAbKI9Ah+uIMVYw70WTfVmgRoON3b7ELehnTUOy+BP3M62aQHC4bQo2W9GI4ERUb/Uz88t75xo25ZzQRFNCC3TG6xLD6Jetb7Btgj64F7YtfoJN0SbZ23Z9eStfX5cbLvJcOPXngAL0rAWwiXKp/QfQLH3DQ7e/bPwyLJ04PgWhA5uQfKNUDE2jlLI0YFZd879O52ocIknmvqXtop6RjTk5n9iEr++faitiih5/0aJ1yWaunekNW0dinzRoAlHSuw7xRZoEKgHJBPqjtClfiqdmhGxiAYJP+5pbCW1U=
+        secure: UmW0wVdmrN8hUxej4vPqopgueWEpIQKhSxse5u1QW5Ki9JV1qwEmTy2KZOeaXANfbRCPT3uMfW7JQxvvIF5YG0yk4HlWUxgUQIhgTgzK5VwOIKgXvxZXskuPhuPqcNM98MqQTsmVvO54JnIRENz1C8RCpDPERtJwLmOtGrbwdgLw0cSU7CkHa2yTvdDhKsQPzRxvVtVqMGQ67LOJmp+IDmcy5jAzYsiYu7udlPsHCI5FeRNiUWg27MHRYAOQ7ZxoACs4gpZ64UXyxyXJdQ7eLZ9YjFBYnZ8Z0wRfuGG9FDil8hDSQ1Hg4WUdmWSZpUW49vU531txUKKe3IFwhokf2zhvu/0+BgvydaViWqZ50jz3G9lywert0JN3U1YKSjMeZOy53Uq2QuUtjqYxNKkjgiELMbt8dLVVK3tmkO9HhXvLsje2GWn+MNd5fiun0yrN2pLrYuAkQMYrBvXZEpwFnw5x3G7kkMH9EtmWVJWj8H+piKnUxhd3yVjaAPgU3CBP6QLedP07bH/S5s4in0SfhrkvZ4T9K3N3Cr02OGGPB+UuFW5ioqssCJoPBOVirSU43F/XLJbbEjJC1p8MPSaQzF+9Sbap1d4T780MWreJfw9I46h1FJv2T6s6vkelrsBeqh11HiKReoMS7KV52eG7xuSo6MshznlbWYoUKSPMCT4=
       gem: wash
       on:
         repo: puppetlabs/wash-ruby
