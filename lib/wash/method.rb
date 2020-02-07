@@ -50,6 +50,8 @@ module Wash
     end
 
     method(:exec) do |entry, *args|
+      $stdout.sync = true
+      $stderr.sync = true
       opts, cmd, args = Wash.send(:parse_json, args[0]), args[1], args[2..-1]
       if opts[:stdin]
         opts[:stdin] = $stdin
