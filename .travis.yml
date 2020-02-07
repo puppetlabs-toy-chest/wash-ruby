@@ -16,14 +16,3 @@ jobs:
     - curl -sfL https://github.com/puppetlabs/wash/releases/download/0.17.0/wash-0.17.0-x86_64-unknown-linux.tgz | tar -xz
     script:
     - ./wash validate examples/mock_docker.rb
-  - stage: gem release
-    name: Deploy to RubyGems
-    script: echo "Deploying to rubygems.org..."
-    deploy:
-      provider: rubygems
-      api_key:
-        secure: UmW0wVdmrN8hUxej4vPqopgueWEpIQKhSxse5u1QW5Ki9JV1qwEmTy2KZOeaXANfbRCPT3uMfW7JQxvvIF5YG0yk4HlWUxgUQIhgTgzK5VwOIKgXvxZXskuPhuPqcNM98MqQTsmVvO54JnIRENz1C8RCpDPERtJwLmOtGrbwdgLw0cSU7CkHa2yTvdDhKsQPzRxvVtVqMGQ67LOJmp+IDmcy5jAzYsiYu7udlPsHCI5FeRNiUWg27MHRYAOQ7ZxoACs4gpZ64UXyxyXJdQ7eLZ9YjFBYnZ8Z0wRfuGG9FDil8hDSQ1Hg4WUdmWSZpUW49vU531txUKKe3IFwhokf2zhvu/0+BgvydaViWqZ50jz3G9lywert0JN3U1YKSjMeZOy53Uq2QuUtjqYxNKkjgiELMbt8dLVVK3tmkO9HhXvLsje2GWn+MNd5fiun0yrN2pLrYuAkQMYrBvXZEpwFnw5x3G7kkMH9EtmWVJWj8H+piKnUxhd3yVjaAPgU3CBP6QLedP07bH/S5s4in0SfhrkvZ4T9K3N3Cr02OGGPB+UuFW5ioqssCJoPBOVirSU43F/XLJbbEjJC1p8MPSaQzF+9Sbap1d4T780MWreJfw9I46h1FJv2T6s6vkelrsBeqh11HiKReoMS7KV52eG7xuSo6MshznlbWYoUKSPMCT4=
-      gem: wash
-      on:
-        repo: puppetlabs/wash-ruby
-        tags: true
